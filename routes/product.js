@@ -8,7 +8,7 @@ const auth = require('../configs/auth');
 
 router.get('/', auth.verivyToken, productController.getIndex);
 
-// router.post('/', productController.postProduct); //materi
+router.post('/add', auth.verivyToken, productController.postProduct); //materi
 
 router.put('/:id', productController.putProduct); //materi
 

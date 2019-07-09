@@ -17,7 +17,7 @@ module.exports.postUserLogin = (req, res) => {
             }
         }).then(user => {
             if (!user) {
-                res.status(400).send('Username not found');
+                res.status(400).send('Email not found');
             }
 
             bcrypt.compare(req.body.password, user.get('password'), function (err, isMatch) {
@@ -27,11 +27,13 @@ module.exports.postUserLogin = (req, res) => {
 
                 if (isMatch) {
                     jwt.sign({
-                            id: user.get('id')
+                            id: user.get('id'),
+                            role: user.get('roles')
                         },
                         process.env.SECRETKEY, (error, token) => {
                             res.json({
-                                token: token
+                                token: token,
+                                user: user
                             });
                         })
                 } else {
